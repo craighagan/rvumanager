@@ -4,7 +4,7 @@ from rvu.models import BillingCode, PatientVisit, Provider
 import dateutil.parser
 
 
-r = csv.reader(file("rvu_codes.csv"))
+r = csv.reader(file("/tmp/rvu_codes.csv"))
 
 for nr_rvus, code_name in r:
     print code_name, nr_rvus
@@ -12,7 +12,7 @@ for nr_rvus, code_name in r:
     bc.save()
 
 
-r = csv.reader(file("RVUReport.csv"))
+r = csv.reader(file("/tmp/RVUReport.csv"))
 r.next()
 for visit_date, provider_email, code_name, nr_rvus in r:
     print visit_date, provider_email, code_name, nr_rvus

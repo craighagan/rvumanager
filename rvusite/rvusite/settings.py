@@ -15,12 +15,13 @@ https://docs.djangoproject.com/en/1.9/intro/tutorial04/
 https://docs.djangoproject.com/en/1.9/ref/request-response/
 http://django-tables2.readthedocs.org/en/latest/pages/tutorial.html
 https://github.com/burke-software/django-report-builder/blob/master/docs/quickstart.md
+http://www.marinamele.com/taskbuster-django-tutorial/install-and-configure-mysql-for-django
 
-pip install django
+pip install django boto
 pip install django-tables2 numpy pandas django-pandas
 pip install django-report-builder mysqlclient
 
-sudo apt-get install python-pip python-dev mysql-server libmysqlclient-dev
+sudo apt-get install python-pip python-dev mariadb-server libmysqlclient-dev
 
 sudo mysql_secure_installation
 create database rvu character set utf8;
@@ -28,9 +29,34 @@ CREATE USER rvuuser@localhost IDENTIFIED BY 'changmenow';
 GRANT ALL PRIVILEGES ON rvu.* TO rvuuser@localhost;
 FLUSH PRIVILEGES;
 
+python manage.py check
+python manage.py migrate
+python manage.py createsuperuser
+
+python manage.py makemigration rvu
+python manage.py migrate rvu
+
 """
 
 import os
+import json
+import boto
+import boto.s3
+
+region = 'us-east-1'
+bucket_name = 'configureme'
+CONFIG_FILE = "/etc/rvu/config.json"
+
+# if the config file doesn't exist
+# grab it from s3
+if not os.path.exists(CONFIG_FILE):
+    os.makedirs(os.path.dirname(CONFIG_FILE))
+    s3conn = boto.s3.connect_to_region(region)
+    bucket = s3conn.get_bucket(bucket_name)
+    k = bucket.get_key(CONFIG_FILE)
+    k.get_contents_to_filename(CONFIG_FILE)
+
+configuration = json.load(file(CONFIG_FILE))
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -43,13 +69,12 @@ STATICFILES_DIRS = [
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'q_^9u+zzhw64*qgsx$&8=v8ep8ic+qgbmuo-b36z3909sbx^dj'
+SECRET_KEY = configuration['django']['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -85,7 +110,6 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-#                'django.core.context_processors.request',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -102,17 +126,9 @@ WSGI_APPLICATION = 'rvusite.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
+DATABASES = configuration['django']['DATABASES']
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'rvu',
-        'USER': 'rvuuser',          # change the username
-        'PASSWORD': 'changemenow',  # change the password
-        'HOST': 'localhost',
-        'PORT': '',
-    }
-}
+
 
 
 # Password validation
@@ -153,9 +169,3 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
-
-#disable later?
-#REPORT_BUILDER_GLOBAL_EXPORT = True
-#REPORT_BUILDER_ASYNC_REPORT = True
-#REPORT_BUILDER_EMAIL_NOTIFICATION = True
-

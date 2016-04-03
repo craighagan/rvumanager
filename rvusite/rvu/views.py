@@ -6,6 +6,8 @@ from .models import PatientVisit, BillingCode, Provider
 from .tables import PatientVisitTable, BillingCodesTable, ProviderTable, getSQLTable
 from .forms import NewPatientVisitForm
 
+database = "mysql"
+
 
 def index(request):
     return HttpResponse("Hello, world. You're at the polls index.")
@@ -48,19 +50,34 @@ def providers(request):
 
 
 def monthly_report(request):
-    sql = """
-    select strftime("%%Y %%m", rvu_patientvisit.visit_date) as visit_date, auth_user.email as provider,
-    sum(rvu_billingcode.nr_rvus) as total_rvus,
-    sum(rvu_billingcode.nr_rvus)/(rvu_provider.annual_rvu_goal/12)*100||'%%' as pct_rvu_goal
-    from
-    rvu_patientvisit, auth_user, rvu_billingcode, rvu_provider
-    where
-    rvu_patientvisit.provider_id = rvu_provider.id and
-    rvu_patientvisit.code_billed_id = rvu_billingcode.id and
-    rvu_provider.user_id = auth_user.id and
-    auth_user.id = :user_id
-    group by strftime("%%Y %%m", rvu_patientvisit.visit_date), auth_user.email
-    """
+    if database == "sqlite":
+        sql = """
+        select strftime("%%Y-%%m", rvu_patientvisit.visit_date) as visit_date, auth_user.email as provider,
+        sum(rvu_billingcode.nr_rvus) as total_rvus,
+        sum(rvu_billingcode.nr_rvus)/(rvu_provider.annual_rvu_goal/12)*100||'%%' as pct_rvu_goal
+        from
+        rvu_patientvisit, auth_user, rvu_billingcode, rvu_provider
+        where
+        rvu_patientvisit.provider_id = rvu_provider.id and
+        rvu_patientvisit.code_billed_id = rvu_billingcode.id and
+        rvu_provider.user_id = auth_user.id and
+        auth_user.id = :user_id
+        group by strftime("%%Y-%%m", rvu_patientvisit.visit_date), auth_user.email
+        """
+    elif database == "mysql":
+        sql = """
+        select DATE_FORMAT(rvu_patientvisit.visit_date, "%%Y-%%m") as visit_date, auth_user.email as provider,
+        sum(rvu_billingcode.nr_rvus) as total_rvus,
+        sum(rvu_billingcode.nr_rvus)/(rvu_provider.annual_rvu_goal/12)*100||'%%' as pct_rvu_goal
+        from
+        rvu_patientvisit, auth_user, rvu_billingcode, rvu_provider
+        where
+        rvu_patientvisit.provider_id = rvu_provider.id and
+        rvu_patientvisit.code_billed_id = rvu_billingcode.id and
+        rvu_provider.user_id = auth_user.id and
+        auth_user.id = %(user_id)s
+        group by DATE_FORMAT(rvu_patientvisit.visit_date, "%%Y-%%m"), auth_user.email
+        """
     user = request.user
     provider_email = request.GET.get('provider_email', '')
     if provider_email:
@@ -74,19 +91,34 @@ def monthly_report(request):
 
 
 def weekly_report(request):
-    sql = """
-    select strftime("%%Y Wk:%%W", rvu_patientvisit.visit_date) as visit_date, auth_user.email as provider,
-    sum(rvu_billingcode.nr_rvus) as total_rvus,
-    sum(rvu_billingcode.nr_rvus)/(rvu_provider.annual_rvu_goal/52)*100||'%%' as pct_rvu_goal
-    from
-    rvu_patientvisit, auth_user, rvu_billingcode, rvu_provider
-    where
-    rvu_patientvisit.provider_id = rvu_provider.id and
-    rvu_patientvisit.code_billed_id = rvu_billingcode.id and
-    rvu_provider.user_id = auth_user.id and
-    auth_user.id = :user_id
-    group by strftime("%%Y Wk:%%W", rvu_patientvisit.visit_date), auth_user.email
-    """
+    if database == "sqlite":
+        sql = """
+        select strftime("%%Y Wk:%%W", rvu_patientvisit.visit_date) as visit_date, auth_user.email as provider,
+        sum(rvu_billingcode.nr_rvus) as total_rvus,
+        sum(rvu_billingcode.nr_rvus)/(rvu_provider.annual_rvu_goal/52)*100||'%%' as pct_rvu_goal
+        from
+        rvu_patientvisit, auth_user, rvu_billingcode, rvu_provider
+        where
+        rvu_patientvisit.provider_id = rvu_provider.id and
+        rvu_patientvisit.code_billed_id = rvu_billingcode.id and
+        rvu_provider.user_id = auth_user.id and
+        auth_user.id = %(user_id)s
+        group by strftime("%%Y Wk:%%W", rvu_patientvisit.visit_date), auth_user.email
+        """
+    elif database == "mysql":
+        sql = """
+        select DATE_FORMAT(rvu_patientvisit.visit_date, "%%Y Wk:%%U") as visit_date, auth_user.email as provider,
+        sum(rvu_billingcode.nr_rvus) as total_rvus,
+        sum(rvu_billingcode.nr_rvus)/(rvu_provider.annual_rvu_goal/52)*100||'%%' as pct_rvu_goal
+        from
+        rvu_patientvisit, auth_user, rvu_billingcode, rvu_provider
+        where
+        rvu_patientvisit.provider_id = rvu_provider.id and
+        rvu_patientvisit.code_billed_id = rvu_billingcode.id and
+        rvu_provider.user_id = auth_user.id and
+        auth_user.id = %(user_id)s
+        group by DATE_FORMAT(rvu_patientvisit.visit_date, "%%Y Wk:%%U"), auth_user.email
+        """
     user = request.user
     provider_email = request.GET.get('provider_email', '')
     if provider_email:
@@ -100,19 +132,35 @@ def weekly_report(request):
 
 
 def daily_report(request):
-    sql = """
-    select date(rvu_patientvisit.visit_date) as visit_date, auth_user.email as provider,
-    sum(rvu_billingcode.nr_rvus) as total_rvus,
-    sum(rvu_billingcode.nr_rvus)/(rvu_provider.annual_rvu_goal/314)*100||'%%' as pct_rvu_goal
-    from
-    rvu_patientvisit, auth_user, rvu_billingcode, rvu_provider
-    where
-    rvu_patientvisit.provider_id = rvu_provider.id and
-    rvu_patientvisit.code_billed_id = rvu_billingcode.id and
-    rvu_provider.user_id = auth_user.id and
-    auth_user.id = :user_id
-    group by date(rvu_patientvisit.visit_date), auth_user.email
-    """
+    if database == "sqlite":
+        sql = """
+        select date(rvu_patientvisit.visit_date) as visit_date, auth_user.email as provider,
+        sum(rvu_billingcode.nr_rvus) as total_rvus,
+        sum(rvu_billingcode.nr_rvus)/(rvu_provider.annual_rvu_goal/314)*100||'%%' as pct_rvu_goal
+        from
+        rvu_patientvisit, auth_user, rvu_billingcode, rvu_provider
+        where
+        rvu_patientvisit.provider_id = rvu_provider.id and
+        rvu_patientvisit.code_billed_id = rvu_billingcode.id and
+        rvu_provider.user_id = auth_user.id and
+        auth_user.id = :user_id
+        group by date(rvu_patientvisit.visit_date), auth_user.email
+        """
+    elif database == "mysql":
+        sql = """
+        select DATE_FORMAT(rvu_patientvisit.visit_date, "%%Y-%%m-%%d") as visit_date,
+        auth_user.email as provider,
+        sum(rvu_billingcode.nr_rvus) as total_rvus,
+        sum(rvu_billingcode.nr_rvus)/(rvu_provider.annual_rvu_goal/314.0)*100||'%%' as pct_rvu_goal
+        from
+        rvu_patientvisit, auth_user, rvu_billingcode, rvu_provider
+        where
+        rvu_patientvisit.provider_id = rvu_provider.id and
+        rvu_patientvisit.code_billed_id = rvu_billingcode.id and
+        rvu_provider.user_id = auth_user.id and
+        auth_user.id = %(user_id)s
+        group by DATE_FORMAT(rvu_patientvisit.visit_date, "%%Y-%%m-%%d"), auth_user.email
+        """
     user = request.user
     provider_email = request.GET.get('provider_email', '')
     if provider_email:

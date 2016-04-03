@@ -18,7 +18,7 @@ class BillingCode(models.Model):
 
 class Provider(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    annual_rvu_goal = models.IntegerField(default=0)
+    annual_rvu_goal = models.FloatField(default=0)
 
     def __str__(self):
         return "%s %s (%s)" % (self.user.first_name,
