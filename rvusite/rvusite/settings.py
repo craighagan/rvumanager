@@ -16,14 +16,24 @@ https://docs.djangoproject.com/en/1.9/ref/request-response/
 http://django-tables2.readthedocs.org/en/latest/pages/tutorial.html
 https://github.com/burke-software/django-report-builder/blob/master/docs/quickstart.md
 http://www.marinamele.com/taskbuster-django-tutorial/install-and-configure-mysql-for-django
+#https://github.com/gtaylor/django-dynamodb-sessions
+http://docs.aws.amazon.com/codedeploy/latest/userguide/how-to-run-agent.html#how-to-run-agent-update-ubuntu
 
-pip install django boto
-pip install django-tables2 numpy pandas django-pandas
-pip install django-report-builder mysqlclient
+sudo pip install django boto
+sudo pip install django-tables2 numpy pandas django-pandas
+sudo pip install django-report-builder mysqlclient
+#pip install django-dynamodb-sessions
+sudo pip install awscli coverage
+sudo pip install selenium yaml django-nose
 
 sudo apt-get install python-pip python-dev mariadb-server libmysqlclient-dev
-
+sudo apt-get install ruby2.0
 sudo mysql_secure_installation
+
+aws s3 cp s3://aws-codedeploy-us-east-1/latest/install . --region region-name
+chmod +x ./install
+sudo ./install auto
+
 create database rvu character set utf8;
 CREATE USER rvuuser@localhost IDENTIFIED BY 'changmenow';
 GRANT ALL PRIVILEGES ON rvu.* TO rvuuser@localhost;
@@ -38,28 +48,47 @@ python manage.py migrate rvu
 
 """
 
+import sys
 import os
 import json
 import boto
 import boto.s3
+import random
+
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 region = 'us-east-1'
 bucket_name = 'configureme'
 CONFIG_FILE = "/etc/rvu/config.json"
 
 # if the config file doesn't exist
+# and we're not running unit tests
 # grab it from s3
-if not os.path.exists(CONFIG_FILE):
-    os.makedirs(os.path.dirname(CONFIG_FILE))
-    s3conn = boto.s3.connect_to_region(region)
-    bucket = s3conn.get_bucket(bucket_name)
-    k = bucket.get_key(CONFIG_FILE)
-    k.get_contents_to_filename(CONFIG_FILE)
+configuration = {}
+if 'test' in sys.argv or os.uname()[0] == 'Darwin':
+    configuration = {
+    "django": {
+        "DATABASES": {
+            "default": {
+                "ENGINE": "django.db.backends.sqlite3",
+                "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+            }
+        },
+        "SECRET_KEY": ''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)') for i in range(50)])
+    }
+}
+else:
+    if not os.path.exists(CONFIG_FILE):
+        os.makedirs(os.path.dirname(CONFIG_FILE))
+        s3conn = boto.s3.connect_to_region(region)
+        bucket = s3conn.get_bucket(bucket_name)
+        k = bucket.get_key(CONFIG_FILE)
+        k.get_contents_to_filename(CONFIG_FILE)
 
-configuration = json.load(file(CONFIG_FILE))
+    configuration = json.load(file(CONFIG_FILE))
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
     '/var/www/static/',
@@ -73,6 +102,16 @@ SECRET_KEY = configuration['django']['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+# Use nose to run all tests
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+# Tell nose to measure coverage on the 'foo' and 'bar' apps
+NOSE_ARGS = [
+    '--with-coverage',
+    '--cover-package=rvu',
+    '--cover-html'
+]
+
 
 ALLOWED_HOSTS = []
 
@@ -88,6 +127,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'report_builder',
+    'django_nose',
 ]
 
 MIDDLEWARE_CLASSES = [

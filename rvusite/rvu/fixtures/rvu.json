@@ -1,0 +1,1368 @@
+[
+{
+    "model": "rvu.billingcode",
+    "pk": 1,
+    "fields": {
+        "nr_rvus": 2.43,
+        "creation_date": "2015-04-01T19:33:06Z",
+        "code_name": "Code1"
+    }
+},
+{
+    "model": "rvu.billingcode",
+    "pk": 2,
+    "fields": {
+        "nr_rvus": 1.5,
+        "creation_date": "2015-04-01T19:33:06Z",
+        "code_name": "Code2"
+    }
+},
+{
+    "model": "rvu.billingcode",
+    "pk": 3,
+    "fields": {
+        "nr_rvus": 0.45,
+        "creation_date": "2015-04-01T19:33:06Z",
+        "code_name": "Code3"
+    }
+},
+{
+    "model": "rvu.billingcode",
+    "pk": 4,
+    "fields": {
+        "nr_rvus": 1.88,
+        "creation_date": "2015-04-01T19:33:06Z",
+        "code_name": "Code4"
+    }
+},
+{
+    "model": "rvu.billingcode",
+    "pk": 5,
+    "fields": {
+        "nr_rvus": 3.02,
+        "creation_date": "2015-04-01T19:33:06Z",
+        "code_name": "Code5"
+    }
+},
+{
+    "model": "rvu.billingcode",
+    "pk": 6,
+    "fields": {
+        "nr_rvus": 2.43,
+        "creation_date": "2015-04-01T19:33:06Z",
+        "code_name": "Code6"
+    }
+},
+{
+    "model": "rvu.billingcode",
+    "pk": 7,
+    "fields": {
+        "nr_rvus": 0.48,
+        "creation_date": "2015-04-01T19:33:06Z",
+        "code_name": "Code7"
+    }
+},
+{
+    "model": "rvu.billingcode",
+    "pk": 8,
+    "fields": {
+        "nr_rvus": 0.97,
+        "creation_date": "2015-04-01T19:33:06Z",
+        "code_name": "Code8"
+    }
+},
+{
+    "model": "rvu.billingcode",
+    "pk": 9,
+    "fields": {
+        "nr_rvus": 1.5,
+        "creation_date": "2015-04-01T19:33:06Z",
+        "code_name": "Code9"
+    }
+},
+{
+    "model": "rvu.billingcode",
+    "pk": 10,
+    "fields": {
+        "nr_rvus": 2.11,
+        "creation_date": "2015-04-01T19:33:06Z",
+        "code_name": "Code10"
+    }
+},
+{
+    "model": "rvu.billingcode",
+    "pk": 11,
+    "fields": {
+        "nr_rvus": 0.18,
+        "creation_date": "2015-04-01T19:33:06Z",
+        "code_name": "Code11"
+    }
+},
+{
+    "model": "rvu.billingcode",
+    "pk": 12,
+    "fields": {
+        "nr_rvus": 0.48,
+        "creation_date": "2015-04-01T19:33:06Z",
+        "code_name": "Code12"
+    }
+},
+{
+    "model": "rvu.billingcode",
+    "pk": 13,
+    "fields": {
+        "nr_rvus": 0.93,
+        "creation_date": "2015-04-01T19:33:07Z",
+        "code_name": "Code13"
+    }
+},
+{
+    "model": "rvu.billingcode",
+    "pk": 14,
+    "fields": {
+        "nr_rvus": 1.42,
+        "creation_date": "2015-04-01T19:33:07Z",
+        "code_name": "Code14"
+    }
+},
+{
+    "model": "rvu.billingcode",
+    "pk": 15,
+    "fields": {
+        "nr_rvus": 2.43,
+        "creation_date": "2015-04-01T19:33:07Z",
+        "code_name": "Code15"
+    }
+},
+{
+    "model": "rvu.billingcode",
+    "pk": 16,
+    "fields": {
+        "nr_rvus": 3.17,
+        "creation_date": "2015-04-01T19:33:07Z",
+        "code_name": "Code16"
+    }
+},
+{
+    "model": "rvu.billingcode",
+    "pk": 17,
+    "fields": {
+        "nr_rvus": 1.75,
+        "creation_date": "2015-04-01T19:33:07Z",
+        "code_name": "Code17"
+    }
+},
+{
+    "model": "rvu.billingcode",
+    "pk": 18,
+    "fields": {
+        "nr_rvus": 1.9,
+        "creation_date": "2015-04-01T19:33:07Z",
+        "code_name": "Code18"
+    }
+},
+{
+    "model": "rvu.billingcode",
+    "pk": 19,
+    "fields": {
+        "nr_rvus": 1.92,
+        "creation_date": "2015-04-01T19:33:07Z",
+        "code_name": "Code19"
+    }
+},
+{
+    "model": "rvu.billingcode",
+    "pk": 20,
+    "fields": {
+        "nr_rvus": 2.33,
+        "creation_date": "2015-04-01T19:33:07Z",
+        "code_name": "Code20"
+    }
+},
+{
+    "model": "rvu.billingcode",
+    "pk": 21,
+    "fields": {
+        "nr_rvus": 2.0,
+        "creation_date": "2015-04-01T19:33:07Z",
+        "code_name": "Code21"
+    }
+},
+{
+    "model": "rvu.billingcode",
+    "pk": 22,
+    "fields": {
+        "nr_rvus": 2.5,
+        "creation_date": "2015-04-01T19:33:07Z",
+        "code_name": "Code22"
+    }
+},
+{
+    "model": "rvu.billingcode",
+    "pk": 23,
+    "fields": {
+        "nr_rvus": 0.37,
+        "creation_date": "2015-04-01T19:33:07Z",
+        "code_name": "Code23"
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 1,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-02-28T14:42:32Z",
+        "code_billed": 8
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 2,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-02-28T13:59:39Z",
+        "code_billed": 18
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 3,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-02-28T13:29:45Z",
+        "code_billed": 8
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 4,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-02-28T16:08:00Z",
+        "code_billed": 8
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 5,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-02-28T12:50:29Z",
+        "code_billed": 8
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 6,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-02-28T15:41:15Z",
+        "code_billed": 8
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 7,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-02-28T14:55:24Z",
+        "code_billed": 18
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 8,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-02-28T14:25:35Z",
+        "code_billed": 8
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 9,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-02-28T13:35:47Z",
+        "code_billed": 9
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 10,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-02-28T13:02:56Z",
+        "code_billed": 9
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 11,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-02-28T12:34:17Z",
+        "code_billed": 18
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 12,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-30T18:44:29Z",
+        "code_billed": 9
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 13,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-30T18:16:46Z",
+        "code_billed": 9
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 14,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-30T15:45:47Z",
+        "code_billed": 9
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 15,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-30T16:16:29Z",
+        "code_billed": 8
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 16,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-30T13:49:44Z",
+        "code_billed": 8
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 17,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-30T18:44:38Z",
+        "code_billed": 8
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 18,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-30T17:26:38Z",
+        "code_billed": 8
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 19,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-30T15:34:21Z",
+        "code_billed": 9
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 20,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-30T14:21:05Z",
+        "code_billed": 9
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 21,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-30T13:18:14Z",
+        "code_billed": 8
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 22,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-30T18:29:59Z",
+        "code_billed": 8
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 23,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-30T14:57:27Z",
+        "code_billed": 9
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 24,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-30T12:45:10Z",
+        "code_billed": 18
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 25,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-29T15:29:20Z",
+        "code_billed": 9
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 26,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-29T15:29:11Z",
+        "code_billed": 9
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 27,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-29T19:26:01Z",
+        "code_billed": 17
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 28,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-29T17:42:34Z",
+        "code_billed": 19
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 29,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-29T14:17:20Z",
+        "code_billed": 9
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 30,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-29T14:11:43Z",
+        "code_billed": 17
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 31,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-29T18:31:47Z",
+        "code_billed": 18
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 32,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-29T14:11:57Z",
+        "code_billed": 17
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 33,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-29T12:37:34Z",
+        "code_billed": 8
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 34,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-29T12:37:24Z",
+        "code_billed": 9
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 35,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-29T12:07:05Z",
+        "code_billed": 8
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 36,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-28T15:09:18Z",
+        "code_billed": 8
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 37,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-28T14:53:24Z",
+        "code_billed": 9
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 38,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-28T18:13:19Z",
+        "code_billed": 8
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 39,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-28T15:52:22Z",
+        "code_billed": 9
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 40,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-28T14:53:35Z",
+        "code_billed": 9
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 41,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-28T13:09:08Z",
+        "code_billed": 23
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 42,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-28T17:39:48Z",
+        "code_billed": 8
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 43,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-28T16:25:01Z",
+        "code_billed": 8
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 44,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-28T15:21:18Z",
+        "code_billed": 9
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 45,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-28T13:46:07Z",
+        "code_billed": 8
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 46,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-28T13:08:40Z",
+        "code_billed": 18
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 47,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-28T16:10:14Z",
+        "code_billed": 8
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 48,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-28T14:53:52Z",
+        "code_billed": 9
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 49,
+    "fields": {
+        "provider": 1,
+        "visit_date": "2015-03-28T12:54:18Z",
+        "code_billed": 18
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 50,
+    "fields": {
+        "provider": 2,
+        "visit_date": "2015-04-01T19:54:55Z",
+        "code_billed": 5
+    }
+},
+{
+    "model": "rvu.patientvisit",
+    "pk": 51,
+    "fields": {
+        "provider": 2,
+        "visit_date": "2015-04-10T22:30:26Z",
+        "code_billed": 3
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 1,
+    "fields": {
+        "app_label": "rvu",
+        "model": "billingcode"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 2,
+    "fields": {
+        "app_label": "rvu",
+        "model": "provider"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 3,
+    "fields": {
+        "app_label": "rvu",
+        "model": "patientvisit"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 4,
+    "fields": {
+        "app_label": "admin",
+        "model": "logentry"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 5,
+    "fields": {
+        "app_label": "auth",
+        "model": "permission"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 6,
+    "fields": {
+        "app_label": "auth",
+        "model": "group"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 7,
+    "fields": {
+        "app_label": "auth",
+        "model": "user"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 8,
+    "fields": {
+        "app_label": "contenttypes",
+        "model": "contenttype"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 9,
+    "fields": {
+        "app_label": "sessions",
+        "model": "session"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 10,
+    "fields": {
+        "app_label": "report_builder",
+        "model": "report"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 11,
+    "fields": {
+        "app_label": "report_builder",
+        "model": "format"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 12,
+    "fields": {
+        "app_label": "report_builder",
+        "model": "displayfield"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 13,
+    "fields": {
+        "app_label": "report_builder",
+        "model": "filterfield"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "g1jwkw8u3wutfnmz1ytoe7mt04spkegl",
+    "fields": {
+        "session_data": "ZDdiZGVmNTQ5NTFjNWUzYzdhZTE0NTZhMzI0ZWFmN2JmMWU5N2U0Yjp7Il9hdXRoX3VzZXJfaGFzaCI6IjZjMjdlNmZiNjFhMjQwMTFhZGUxYzlhNzI1MzFkZDAwNzVlZWZjNjQiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=",
+        "expire_date": "2015-04-24T22:27:30Z"
+    }
+},
+{
+    "model": "report_builder.displayfield",
+    "pk": 4,
+    "fields": {
+        "report": 1,
+        "path": "provider__user__",
+        "path_verbose": "user",
+        "field": "email",
+        "field_verbose": "email address",
+        "position": 0,
+        "name": "email",
+        "sort": null,
+        "sort_reverse": false,
+        "width": 15,
+        "aggregate": "",
+        "total": false,
+        "group": true,
+        "display_format": null
+    }
+},
+{
+    "model": "report_builder.displayfield",
+    "pk": 5,
+    "fields": {
+        "report": 1,
+        "path": "",
+        "path_verbose": "",
+        "field": "visit_date",
+        "field_verbose": "visit date",
+        "position": 1,
+        "name": "visit_date",
+        "sort": null,
+        "sort_reverse": false,
+        "width": 15,
+        "aggregate": "Sum",
+        "total": false,
+        "group": true,
+        "display_format": null
+    }
+},
+{
+    "model": "report_builder.displayfield",
+    "pk": 6,
+    "fields": {
+        "report": 1,
+        "path": "code_billed__",
+        "path_verbose": "billingcode",
+        "field": "nr_rvus",
+        "field_verbose": "nr rvus",
+        "position": 2,
+        "name": "nr_rvus",
+        "sort": null,
+        "sort_reverse": false,
+        "width": 15,
+        "aggregate": "Sum",
+        "total": true,
+        "group": false,
+        "display_format": null
+    }
+},
+{
+    "model": "report_builder.filterfield",
+    "pk": 1,
+    "fields": {
+        "report": 1,
+        "path": "provider__user__",
+        "path_verbose": "user",
+        "field": "email",
+        "field_verbose": "email address",
+        "position": 0,
+        "filter_type": "exact",
+        "filter_value": "someemail@somewhere.org",
+        "filter_value2": "",
+        "exclude": false
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 1,
+    "fields": {
+        "name": "Can add billing code",
+        "content_type": 1,
+        "codename": "add_billingcode"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 2,
+    "fields": {
+        "name": "Can change billing code",
+        "content_type": 1,
+        "codename": "change_billingcode"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 3,
+    "fields": {
+        "name": "Can delete billing code",
+        "content_type": 1,
+        "codename": "delete_billingcode"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 4,
+    "fields": {
+        "name": "Can add provider",
+        "content_type": 2,
+        "codename": "add_provider"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 5,
+    "fields": {
+        "name": "Can change provider",
+        "content_type": 2,
+        "codename": "change_provider"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 6,
+    "fields": {
+        "name": "Can delete provider",
+        "content_type": 2,
+        "codename": "delete_provider"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 7,
+    "fields": {
+        "name": "Can add patient visit",
+        "content_type": 3,
+        "codename": "add_patientvisit"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 8,
+    "fields": {
+        "name": "Can change patient visit",
+        "content_type": 3,
+        "codename": "change_patientvisit"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 9,
+    "fields": {
+        "name": "Can delete patient visit",
+        "content_type": 3,
+        "codename": "delete_patientvisit"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 10,
+    "fields": {
+        "name": "Can add log entry",
+        "content_type": 4,
+        "codename": "add_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 11,
+    "fields": {
+        "name": "Can change log entry",
+        "content_type": 4,
+        "codename": "change_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 12,
+    "fields": {
+        "name": "Can delete log entry",
+        "content_type": 4,
+        "codename": "delete_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 13,
+    "fields": {
+        "name": "Can add permission",
+        "content_type": 5,
+        "codename": "add_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 14,
+    "fields": {
+        "name": "Can change permission",
+        "content_type": 5,
+        "codename": "change_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 15,
+    "fields": {
+        "name": "Can delete permission",
+        "content_type": 5,
+        "codename": "delete_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 16,
+    "fields": {
+        "name": "Can add group",
+        "content_type": 6,
+        "codename": "add_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 17,
+    "fields": {
+        "name": "Can change group",
+        "content_type": 6,
+        "codename": "change_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 18,
+    "fields": {
+        "name": "Can delete group",
+        "content_type": 6,
+        "codename": "delete_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 19,
+    "fields": {
+        "name": "Can add user",
+        "content_type": 7,
+        "codename": "add_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 20,
+    "fields": {
+        "name": "Can change user",
+        "content_type": 7,
+        "codename": "change_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 21,
+    "fields": {
+        "name": "Can delete user",
+        "content_type": 7,
+        "codename": "delete_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 22,
+    "fields": {
+        "name": "Can add content type",
+        "content_type": 8,
+        "codename": "add_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 23,
+    "fields": {
+        "name": "Can change content type",
+        "content_type": 8,
+        "codename": "change_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 24,
+    "fields": {
+        "name": "Can delete content type",
+        "content_type": 8,
+        "codename": "delete_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 25,
+    "fields": {
+        "name": "Can add session",
+        "content_type": 9,
+        "codename": "add_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 26,
+    "fields": {
+        "name": "Can change session",
+        "content_type": 9,
+        "codename": "change_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 27,
+    "fields": {
+        "name": "Can delete session",
+        "content_type": 9,
+        "codename": "delete_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 28,
+    "fields": {
+        "name": "Can add report",
+        "content_type": 10,
+        "codename": "add_report"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 29,
+    "fields": {
+        "name": "Can change report",
+        "content_type": 10,
+        "codename": "change_report"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 30,
+    "fields": {
+        "name": "Can delete report",
+        "content_type": 10,
+        "codename": "delete_report"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 31,
+    "fields": {
+        "name": "Can add format",
+        "content_type": 11,
+        "codename": "add_format"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 32,
+    "fields": {
+        "name": "Can change format",
+        "content_type": 11,
+        "codename": "change_format"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 33,
+    "fields": {
+        "name": "Can delete format",
+        "content_type": 11,
+        "codename": "delete_format"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 34,
+    "fields": {
+        "name": "Can add display field",
+        "content_type": 12,
+        "codename": "add_displayfield"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 35,
+    "fields": {
+        "name": "Can change display field",
+        "content_type": 12,
+        "codename": "change_displayfield"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 36,
+    "fields": {
+        "name": "Can delete display field",
+        "content_type": 12,
+        "codename": "delete_displayfield"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 37,
+    "fields": {
+        "name": "Can add filter field",
+        "content_type": 13,
+        "codename": "add_filterfield"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 38,
+    "fields": {
+        "name": "Can change filter field",
+        "content_type": 13,
+        "codename": "change_filterfield"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 39,
+    "fields": {
+        "name": "Can delete filter field",
+        "content_type": 13,
+        "codename": "delete_filterfield"
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+        "password": "BLEH",
+        "last_login": "2015-04-10T22:27:30Z",
+        "is_superuser": true,
+        "username": "AnotherLastName",
+        "first_name": "AnotherFirstName",
+        "last_name": "AnotherLastName",
+        "email": "anotheremail@somewhere.else.com",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2015-04-01T19:24:41Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+        "password": "BLAH",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "AFirstName",
+        "first_name": "AFirstName",
+        "last_name": "ALastName",
+        "email": "someemail@somewhere.org",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2015-04-01T19:26:16Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "report_builder.report",
+    "pk": 1,
+    "fields": {
+        "name": "Test",
+        "slug": "test",
+        "description": "test report",
+        "root_model": 3,
+        "created": "2015-04-01",
+        "modified": "2015-04-01",
+        "user_created": 1,
+        "user_modified": null,
+        "distinct": false,
+        "report_file": "",
+        "report_file_creation": null,
+        "starred": []
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 1,
+    "fields": {
+        "action_time": "2015-04-01T19:26:16Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "2",
+        "object_repr": "AFirstName",
+        "action_flag": 1,
+        "change_message": "Added."
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 2,
+    "fields": {
+        "action_time": "2015-04-01T19:33:35Z",
+        "user": 1,
+        "content_type": 2,
+        "object_id": "1",
+        "object_repr": "  ()",
+        "action_flag": 1,
+        "change_message": "Added."
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 3,
+    "fields": {
+        "action_time": "2015-04-01T19:33:44Z",
+        "user": 1,
+        "content_type": 2,
+        "object_id": "2",
+        "object_repr": "  (anotheremail@somewhere.else.com)",
+        "action_flag": 1,
+        "change_message": "Added."
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 4,
+    "fields": {
+        "action_time": "2015-04-01T19:34:05Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "2",
+        "object_repr": "AFirstName",
+        "action_flag": 2,
+        "change_message": "Changed first_name, last_name and email."
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 5,
+    "fields": {
+        "action_time": "2015-04-01T19:34:08Z",
+        "user": 1,
+        "content_type": 2,
+        "object_id": "1",
+        "object_repr": "AFirstName ALastName (someemail@somewhere.org)",
+        "action_flag": 2,
+        "change_message": "No fields changed."
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 6,
+    "fields": {
+        "action_time": "2015-04-01T19:34:19Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "1",
+        "object_repr": "AnotherLastName",
+        "action_flag": 2,
+        "change_message": "Changed first_name and last_name."
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 7,
+    "fields": {
+        "action_time": "2015-04-01T19:34:20Z",
+        "user": 1,
+        "content_type": 2,
+        "object_id": "2",
+        "object_repr": "AnotherFirstName AnotherLastName (anotheremail@somewhere.else.com)",
+        "action_flag": 2,
+        "change_message": "No fields changed."
+    }
+},
+{
+    "model": "rvu.provider",
+    "pk": 1,
+    "fields": {
+        "user": 2,
+        "annual_rvu_goal": 3412.0
+    }
+},
+{
+    "model": "rvu.provider",
+    "pk": 2,
+    "fields": {
+        "user": 1,
+        "annual_rvu_goal": 3412.0
+    }
+}
+]

@@ -10,7 +10,7 @@ class BillingCode(models.Model):
     code_name = models.CharField(max_length=200)
 
     def __str__(self):
-        return "%s (%f)" % (self.code_name, self.nr_rvus)
+        return "%s (%0.2f)" % (self.code_name, self.nr_rvus)
 
     class Meta:
         ordering = ('code_name',)
