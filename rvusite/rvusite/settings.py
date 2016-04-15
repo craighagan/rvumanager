@@ -19,12 +19,27 @@ http://www.marinamele.com/taskbuster-django-tutorial/install-and-configure-mysql
 #https://github.com/gtaylor/django-dynamodb-sessions
 http://docs.aws.amazon.com/codedeploy/latest/userguide/how-to-run-agent.html#how-to-run-agent-update-ubuntu
 
+BIGGIE!
+http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create-deploy-python-django.html#python-django-prereq
+http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create-deploy-python-container.html
+http://stackoverflow.com/questions/21764319/django-admin-py-and-python-path-on-ec2-amazon-beanstalk
+https://realpython.com/blog/python/deploying-a-django-app-to-aws-elastic-beanstalk/
+https://rickchristianson.wordpress.com/2013/10/31/getting-a-django-app-to-use-https-on-aws-elastic-beanstalk/
+
+
+http://go-to-hellman.blogspot.com/2015/11/using-lets-encrypt-to-secure-elastic.html
+
+
+openssl genrsa 2048 > privatekey.pem
+openssl x509 -req -days 365 -in csr.pem -signkey my-private-key.pem -out my-certificate.pem
+aws iam upload-server-certificate --server-certificate-name my-server-cert --certificate-body file://server.crt  --private-key file://privatekey.pem
+
 sudo pip install django boto
 sudo pip install django-tables2 numpy pandas django-pandas
 sudo pip install django-report-builder mysqlclient
 #pip install django-dynamodb-sessions
-sudo pip install awscli coverage
-sudo pip install selenium yaml django-nose
+sudo pip install awscli awsebcli coverage
+sudo pip install selenium pyyaml django-nose django-crispy-forms
 
 sudo apt-get install python-pip python-dev mariadb-server libmysqlclient-dev
 sudo apt-get install ruby2.0
@@ -35,8 +50,13 @@ chmod +x ./install
 sudo ./install auto
 
 create database rvu character set utf8;
-CREATE USER rvuuser@localhost IDENTIFIED BY 'changmenow';
-GRANT ALL PRIVILEGES ON rvu.* TO rvuuser@localhost;
+#CREATE USER rvuuser@localhost IDENTIFIED BY 'changmenow';
+CREATE USER rvuuser@'%' IDENTIFIED BY 'changmenow';
+#GRANT ALL PRIVILEGES ON rvu.* TO rvuuser@localhost;
+GRANT ALL PRIVILEGES ON rvu.* TO rvuuser@'%';
+
+GRANT ALL PRIVILEGES ON rvu.* TO rvuuser;
+SET password for rvuuser@'%' = PASSWORD('changemenow');
 FLUSH PRIVILEGES;
 
 python manage.py check
@@ -59,7 +79,7 @@ import random
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 region = 'us-east-1'
-bucket_name = 'configureme'
+bucket_name = os.environ.get('S3_BUCKET_NAME')
 CONFIG_FILE = "/etc/rvu/config.json"
 
 # if the config file doesn't exist
@@ -75,7 +95,8 @@ if 'test' in sys.argv or os.uname()[0] == 'Darwin':
                 "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
             }
         },
-        "SECRET_KEY": ''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)') for i in range(50)])
+        "SECRET_KEY": ''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)') for i in range(50)]),
+        "use_ssl": False,
     }
 }
 else:
@@ -84,9 +105,9 @@ else:
         s3conn = boto.s3.connect_to_region(region)
         bucket = s3conn.get_bucket(bucket_name)
         k = bucket.get_key(CONFIG_FILE)
-        k.get_contents_to_filename(CONFIG_FILE)
-
-    configuration = json.load(file(CONFIG_FILE))
+        configuration = k.get_contents_as_string(CONFIG_FILE)
+    else:
+        configuration = json.load(file(CONFIG_FILE))
 
 
 STATICFILES_DIRS = [
@@ -101,7 +122,22 @@ STATICFILES_DIRS = [
 SECRET_KEY = configuration['django']['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#DEBUG = True
+DEBUG = os.environ.get('DEBUG') == "True"
+
+if configuration['django']['use_ssl']:
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_SSL_REDIRECT = True
+    SECURE_FRAME_DENY = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    CSRF_COOKIE_HTTPONLY = True
+    X_FRAME_OPTIONS = "DENY"
+    SECURE_HSTS_SECONDS = 3600
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+
 # Use nose to run all tests
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
@@ -112,13 +148,15 @@ NOSE_ARGS = [
     '--cover-html'
 ]
 
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
 INSTALLED_APPS = [
     'rvu.apps.RvuConfig',
+    'crispy_forms',
     'django_tables2',
     'django.contrib.admin',
     'django.contrib.auth',

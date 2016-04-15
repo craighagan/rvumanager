@@ -11,7 +11,8 @@ database = "mysql"
 
 @login_required(login_url='/admin/login/')
 def index(request):
-    return HttpResponse("Hello, world. You're at the rvu index.")
+    return render(request, "rvu/index.html")
+    #return HttpResponse("Hello, world. You're at the rvu index.")
 
 @login_required(login_url='/admin/login/')
 def patient_visit_detail(request, patient_visit_id):
