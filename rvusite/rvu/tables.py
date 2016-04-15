@@ -4,7 +4,7 @@ from django.db import connection
 from .models import PatientVisit, BillingCode, Provider
 
 TABLE_ATTRIBUTES = {"class": "paleblue"}
-
+TABLE_ATTRIBUTES = {"class": "table table-striped"}
 
 class PatientVisitTable(tables.Table):
     class Meta:

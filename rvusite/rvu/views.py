@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django_tables2 import RequestConfig
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from .models import PatientVisit, BillingCode, Provider
 from .tables import PatientVisitTable, BillingCodesTable, ProviderTable, getSQLTable
 from .forms import NewPatientVisitForm
@@ -15,7 +16,7 @@ def index(request):
     #return HttpResponse("Hello, world. You're at the rvu index.")
 
 @login_required(login_url='/admin/login/')
-def patient_visit_detail(request, patient_visit_id):
+def patient_visit_detail(request, patient_visit_id, context=""):
     user = request.user
     provider_email = request.GET.get('provider_email', '')
     if provider_email:
@@ -24,7 +25,7 @@ def patient_visit_detail(request, patient_visit_id):
     provider = get_object_or_404(Provider, user=user)
     table = PatientVisitTable(PatientVisit.objects.filter(pk=patient_visit_id,
                                                           provider=provider))
-    return render(request, "rvu/render_table.html", {"table": table})
+    return render(request, "rvu/render_table.html", {"table": table, "context": context})
 
 @login_required(login_url='/admin/login/')
 def patient_visits(request):
@@ -181,6 +182,7 @@ def new_patient_visit(request):
             patient_visit = form.save(commit=False)
             patient_visit.provider = Provider.objects.get(user=request.user)
             patient_visit.save()
+            messages.success(request, 'Patient visit saved.')
             return redirect('patient_visit_detail', patient_visit_id=patient_visit.pk)
     else:
         form = NewPatientVisitForm()
