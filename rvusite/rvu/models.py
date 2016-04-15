@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 from django.db import models
 from django.utils import timezone
 from django.conf import settings
+from django.core.urlresolvers import reverse
 
 
 class BillingCode(models.Model):
@@ -37,5 +38,9 @@ class PatientVisit(models.Model):
     class Meta:
         ordering = ('visit_date',)
 
+    def get_absolute_url(self):
+        return reverse('patient-visit-detail', kwargs={'pk': self.pk})
+
     def __str__(self):
         return "%s:%s:%s" % (self.visit_date, self.provider, self.code_billed)
+

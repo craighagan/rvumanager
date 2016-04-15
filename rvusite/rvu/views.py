@@ -4,6 +4,13 @@ from django_tables2 import RequestConfig
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.core.exceptions import ValidationError
+from django.http import HttpResponseRedirect
+from django.db.models import Count, Min, Sum, Avg
+from django.views.generic import CreateView, UpdateView, DetailView, DeleteView, FormView, ListView
+from django_tables2 import RequestConfig, SingleTableView, SingleTableMixin
+from django.contrib.messages.views import SuccessMessageMixin
+from braces.views import LoginRequiredMixin
 from .models import PatientVisit, BillingCode, Provider
 from .tables import PatientVisitTable, BillingCodesTable, ProviderTable, getSQLTable
 from .forms import NewPatientVisitForm
@@ -14,42 +21,6 @@ database = "mysql"
 def index(request):
     return render(request, "rvu/index.html")
     #return HttpResponse("Hello, world. You're at the rvu index.")
-
-@login_required(login_url='/admin/login/')
-def patient_visit_detail(request, patient_visit_id, context=""):
-    user = request.user
-    provider_email = request.GET.get('provider_email', '')
-    if provider_email:
-        user = get_object_or_404(User, email=provider_email)
-
-    provider = get_object_or_404(Provider, user=user)
-    table = PatientVisitTable(PatientVisit.objects.filter(pk=patient_visit_id,
-                                                          provider=provider))
-    return render(request, "rvu/render_table.html", {"table": table, "context": context})
-
-@login_required(login_url='/admin/login/')
-def patient_visits(request):
-    user = request.user
-    provider_email = request.GET.get('provider_email', '')
-    if provider_email:
-        user = get_object_or_404(User, email=provider_email)
-
-    provider = get_object_or_404(Provider, user=user)
-    table = PatientVisitTable(PatientVisit.objects.filter(provider=provider))
-    RequestConfig(request).configure(table)
-    return render(request, "rvu/render_table.html", {"table": table})
-
-@login_required(login_url='/admin/login/')
-def billing_codes(request):
-    table = BillingCodesTable(BillingCode.objects.all())
-    RequestConfig(request).configure(table)
-    return render(request, "rvu/render_table.html", {"table": table})
-
-@login_required(login_url='/admin/login/')
-def providers(request):
-    table = ProviderTable(Provider.objects.all())
-    RequestConfig(request).configure(table)
-    return render(request, "rvu/render_table.html", {"table": table})
 
 @login_required(login_url='/admin/login/')
 def monthly_report(request):
@@ -174,16 +145,90 @@ def daily_report(request):
     RequestConfig(request).configure(table)
     return render(request, "rvu/render_table.html", {"table": table})
 
-@login_required(login_url='/admin/login/')
-def new_patient_visit(request):
-    if request.method == "POST":
-        form = NewPatientVisitForm(request.POST)
-        if form.is_valid():
-            patient_visit = form.save(commit=False)
-            patient_visit.provider = Provider.objects.get(user=request.user)
-            patient_visit.save()
-            messages.success(request, 'Patient visit saved.')
-            return redirect('patient_visit_detail', patient_visit_id=patient_visit.pk)
-    else:
-        form = NewPatientVisitForm()
-    return render(request, 'rvu/new_patient_visit.html', {'form': form})
+
+class BillingCodeListView(LoginRequiredMixin, SingleTableMixin, ListView):
+    model = BillingCode
+    table_class = BillingCodesTable
+    login_url = '/admin/login/'
+    template_name = "rvu/render_table.html"
+
+    def get(self, request, *args, **kwargs):
+        provider = get_object_or_404(Provider, user=self.request.user)
+        return super(BillingCodeListView, self).get(request, *args, **kwargs)
+
+
+class ProviderListView(LoginRequiredMixin, SingleTableMixin, ListView):
+    model = Provider
+    table_class = ProviderTable
+    login_url = '/admin/login/'
+    template_name = "rvu/render_table.html"
+
+    def get(self, request, *args, **kwargs):
+        provider = get_object_or_404(Provider, user=self.request.user)
+        return super(ProviderListView, self).get(request, *args, **kwargs)
+
+
+class CreatePatientVisitView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    model = PatientVisit
+    form_class = NewPatientVisitForm
+    login_url = '/admin/login/'
+    success_url = "/rvu"
+    success_message = "Patient visit saved"
+
+    def form_valid(self, form):
+        form.instance.provider = get_object_or_404(Provider, user=self.request.user)
+        return super(CreatePatientVisitView, self).form_valid(form)
+
+    def get(self, request, *args, **kwargs):
+        provider = get_object_or_404(Provider, user=self.request.user)
+        return super(CreatePatientVisitView, self).get(request, *args, **kwargs)
+
+
+class PatientVisitListView(LoginRequiredMixin, SingleTableMixin, ListView):
+    model = PatientVisit
+    table_class = PatientVisitTable
+    login_url = '/admin/login/'
+    template_name = "rvu/render_table.html"
+
+    def get(self, request, *args, **kwargs):
+        provider = get_object_or_404(Provider, user=self.request.user)
+        return super(PatientVisitListView, self).get(request, *args, **kwargs)
+
+class PatientVisitDetailView(PatientVisitListView):
+    def get_queryset(self):
+        return [get_object_or_404(PatientVisit, pk=self.kwargs['pk'])]
+
+class oldPatientVisitDetailView(LoginRequiredMixin, SingleTableMixin, DetailView):
+    model = PatientVisit
+    table_class = PatientVisitTable
+    login_url = '/admin/login/'
+
+    def get_context_data(self, **kwargs):
+        context = kwargs
+        context_object_name = self.get_context_object_name(self.object)
+        if context_object_name:
+            context[context_object_name] = [self.object]
+        return context
+
+    def get(self, request, *args, **kwargs):
+        provider = get_object_or_404(Provider, user=self.request.user)
+        return super(PatientVisitDetailView, self).get(request, *args, **kwargs)
+
+
+class PatientVisitUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = PatientVisit
+    form_class = NewPatientVisitForm
+    login_url = '/admin/login/'
+    success_url = "/rvu"
+    success_message = "Patient visit updated"
+
+    def form_valid(self, form):
+        if form.instance.provider != get_object_or_404(Provider, user=self.request.user):
+            raise ValidationError(_("only change visits belonging to you"))
+        return super(PatientVisitUpdateView, self).form_valid(form)
+
+    def get(self, request, *args, **kwargs):
+        provider = get_object_or_404(Provider, user=self.request.user)
+        return super(PatientVisitUpdateView, self).get(request, *args, **kwargs)
+
+

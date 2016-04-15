@@ -37,7 +37,7 @@ aws iam upload-server-certificate --server-certificate-name my-server-cert --cer
 sudo pip install django boto
 sudo pip install django-tables2 numpy pandas django-pandas
 sudo pip install django-report-builder mysqlclient
-#pip install django-dynamodb-sessions
+sudo pip install django-dynamodb-sessions django-braces
 sudo pip install awscli awsebcli coverage
 sudo pip install selenium pyyaml django-nose django-crispy-forms
 

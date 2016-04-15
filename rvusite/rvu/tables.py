@@ -11,7 +11,8 @@ class PatientVisitTable(tables.Table):
         model = PatientVisit
         # add class="paleblue" to <table> tag
         attrs = TABLE_ATTRIBUTES
-        fields = ('provider', 'visit_date', 'code_billed')
+        edit = tables.LinkColumn('patient-visit-detail', args=[tables.A('pk')])
+        fields = ('edit', 'provider', 'visit_date', 'code_billed')
 
     def render_code_billed(self, value):
         return "%s (%s)" % (value.code_name, value.nr_rvus)

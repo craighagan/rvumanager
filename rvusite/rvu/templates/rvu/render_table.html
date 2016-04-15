@@ -4,16 +4,6 @@
 {% load render_table from django_tables2 %}
 
 {% block content %}
-{% if messages %}
-    {% for message in messages %}
-    <div class="alert alert-{{ message.tags|lower|safe }}">
-        <a class="close" data-dismiss="alert">×</a>
-        {{ message|safe }}.
-    </div>
-
-    {% endfor %}
-{% endif %}
-
         {{ context|safe }}
         {% render_table table %}
 {% endblock content %}
