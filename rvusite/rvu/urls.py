@@ -6,6 +6,7 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     # ex: /patient_visit/5/
     url(r'visit/edit/(?P<pk>[0-9]+)/$', views.PatientVisitUpdateView.as_view(), name='patient-visit-edit'),
+    url(r'visit/delete/(?P<pk>[0-9]+)/$', views.PatientVisitDeleteView.as_view(), name='patient-visit-delete'),
     url(r'visit/(?P<pk>[0-9]+)/$', views.PatientVisitDetailView.as_view(), name='patient-visit-detail'),
     url(r'visit/all/$', views.PatientVisitListView.as_view(), name='patient_visits'),
     url(r'billing_codes/$', views.BillingCodeListView.as_view(), name='billing_codes'),

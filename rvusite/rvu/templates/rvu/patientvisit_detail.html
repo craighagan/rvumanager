@@ -1,0 +1,7 @@
+{% extends "rvu/base.html" %}
+
+{% load staticfiles %}
+{% load render_table from django_tables2 %}
+{% block content %}
+   {{ object|safe }}
+{% endblock content %}

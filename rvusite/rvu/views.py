@@ -184,6 +184,28 @@ class CreatePatientVisitView(LoginRequiredMixin, SuccessMessageMixin, CreateView
         return super(CreatePatientVisitView, self).get(request, *args, **kwargs)
 
 
+class PatientVisitDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+    model = PatientVisit
+    form_class = NewPatientVisitForm
+    login_url = '/admin/login/'
+    success_url = "/rvu"
+    success_message = "Patient visit deleted"
+
+    def form_valid(self, form):
+        form.instance.provider = get_object_or_404(Provider, user=self.request.user)
+        return super(PatientVisitDeleteView, self).form_valid(form)
+
+    def get(self, request, *args, **kwargs):
+        provider = get_object_or_404(Provider, user=self.request.user)
+        return super(PatientVisitDeleteView, self).get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        if "cancel" in request.POST:
+            self.success_message = "cancelled delete"
+            return HttpResponseRedirect(self.success_url)
+
+        return super(PatientVisitDeleteView, self).post(request, *args, **kwargs)
+
 class PatientVisitListView(LoginRequiredMixin, SingleTableMixin, ListView):
     model = PatientVisit
     table_class = PatientVisitTable

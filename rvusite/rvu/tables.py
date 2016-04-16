@@ -1,5 +1,6 @@
 import collections
 import django_tables2 as tables
+from django_tables2.utils import A
 from django.db import connection
 from .models import PatientVisit, BillingCode, Provider
 
@@ -7,26 +8,20 @@ TABLE_ATTRIBUTES = {"class": "paleblue"}
 TABLE_ATTRIBUTES = {"class": "table table-striped"}
 
 class PatientVisitTable(tables.Table):
+    provider  = tables.LinkColumn('patient-visit-edit', text=lambda record: record.provider, args=[A('pk')])
+    visit_date  = tables.LinkColumn('patient-visit-edit', args=[A('pk')])
+    code_billed  = tables.LinkColumn('patient-visit-edit', text=lambda record: record.code_billed, args=[A('pk')])
+    delete = tables.TemplateColumn('<a href="{% url \'patient-visit-delete\' record.pk %}">delete</a>')
+
     class Meta:
         model = PatientVisit
-        # add class="paleblue" to <table> tag
         attrs = TABLE_ATTRIBUTES
-        edit = tables.LinkColumn('patient-visit-detail', args=[tables.A('pk')])
-        fields = ('edit', 'provider', 'visit_date', 'code_billed')
-
-    def render_code_billed(self, value):
-        return "%s (%s)" % (value.code_name, value.nr_rvus)
-
-    def render_provider(self, value):
-        return "%s %s (%s)" % (value.user.first_name,
-                               value.user.last_name,
-                               value.user.email)
+        #fields = ('provider', 'visit_date', 'code_billed')
 
 
 class ProviderTable(tables.Table):
     class Meta:
         model = Provider
-        # add class="paleblue" to <table> tag
         attrs = TABLE_ATTRIBUTES
         fields = ('user', 'annual_rvu_goal')
 
@@ -37,7 +32,6 @@ class ProviderTable(tables.Table):
 class BillingCodesTable(tables.Table):
     class Meta:
         model = BillingCode
-        # add class="paleblue" to <table> tag
         attrs = TABLE_ATTRIBUTES
         fields = ('code_name', 'nr_rvus')
 
