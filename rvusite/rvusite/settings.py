@@ -35,7 +35,7 @@ openssl x509 -req -days 365 -in csr.pem -signkey my-private-key.pem -out my-cert
 aws iam upload-server-certificate --server-certificate-name my-server-cert --certificate-body file://server.crt  --private-key file://privatekey.pem
 
 sudo pip install django boto
-sudo pip install django-tables2 numpy pandas django-pandas
+#sudo pip install django-tables2 numpy pandas django-pandas
 sudo pip install django-report-builder mysqlclient
 sudo pip install django-dynamodb-sessions django-braces
 sudo pip install awscli awsebcli coverage
@@ -78,15 +78,15 @@ import random
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-region = 'us-east-1'
-bucket_name = os.environ.get('S3_BUCKET_NAME')
-CONFIG_FILE = "/etc/rvu/config.json"
+region = os.environ.get("REGION", "us-east-1")
+bucket_name = os.environ.get("S3_BUCKET_NAME", "")
+CONFIG_FILE = os.environ.get("CONFIG_FILE", "/etc/rvu/config.json")
 
 # if the config file doesn't exist
 # and we're not running unit tests
 # grab it from s3
 configuration = {}
-if 'test' in sys.argv or os.uname()[0] == 'Darwin':
+if "test" in sys.argv or os.uname()[0] == 'Darwin':
     configuration = {
     "django": {
         "DATABASES": {
@@ -101,11 +101,11 @@ if 'test' in sys.argv or os.uname()[0] == 'Darwin':
 }
 else:
     if not os.path.exists(CONFIG_FILE):
-        os.makedirs(os.path.dirname(CONFIG_FILE))
+        #os.makedirs(os.path.dirname(CONFIG_FILE))
         s3conn = boto.s3.connect_to_region(region)
         bucket = s3conn.get_bucket(bucket_name)
         k = bucket.get_key(CONFIG_FILE)
-        configuration = k.get_contents_as_string(CONFIG_FILE)
+        configuration = json.loads(k.get_contents_as_string())
     else:
         configuration = json.load(file(CONFIG_FILE))
 
