@@ -206,6 +206,7 @@ class PatientVisitDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView
 
         return super(PatientVisitDeleteView, self).post(request, *args, **kwargs)
 
+
 class PatientVisitListView(LoginRequiredMixin, SingleTableMixin, ListView):
     model = PatientVisit
     table_class = PatientVisitTable
@@ -216,9 +217,15 @@ class PatientVisitListView(LoginRequiredMixin, SingleTableMixin, ListView):
         provider = get_object_or_404(Provider, user=self.request.user)
         return super(PatientVisitListView, self).get(request, *args, **kwargs)
 
+    def get_queryset(self):
+        provider = get_object_or_404(Provider, user=self.request.user)
+        return PatientVisit.objects.filter(provider=provider)
+
+
 class PatientVisitDetailView(PatientVisitListView):
     def get_queryset(self):
         return [get_object_or_404(PatientVisit, pk=self.kwargs['pk'])]
+
 
 class oldPatientVisitDetailView(LoginRequiredMixin, SingleTableMixin, DetailView):
     model = PatientVisit
