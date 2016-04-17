@@ -8,13 +8,14 @@ from django.core.urlresolvers import reverse
 class BillingCode(models.Model):
     nr_rvus = models.FloatField()
     creation_date = models.DateTimeField('date created', default=timezone.now)
+    ordering = models.IntegerField(blank=True, null=True)
     code_name = models.CharField(max_length=200)
 
     def __str__(self):
         return "%s (%0.2f)" % (self.code_name, self.nr_rvus)
 
     class Meta:
-        ordering = ('code_name',)
+        ordering = ('-ordering', 'code_name',)
 
 
 class Provider(models.Model):
