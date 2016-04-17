@@ -37,7 +37,7 @@ class PatientVisit(models.Model):
     code_billed = models.ForeignKey(BillingCode)
 
     class Meta:
-        ordering = ('visit_date',)
+        ordering = ('-visit_date',)
 
     def get_absolute_url(self):
         return reverse('patient-visit-detail', kwargs={'pk': self.pk})
