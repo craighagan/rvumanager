@@ -29,9 +29,15 @@ https://rickchristianson.wordpress.com/2013/10/31/getting-a-django-app-to-use-ht
 
 http://go-to-hellman.blogspot.com/2015/11/using-lets-encrypt-to-secure-elastic.html
 
-
-openssl genrsa 2048 > privatekey.pem
+openssl genrsa -out my-private-key.pem 2048
+openssl req -sha256 -new -key my-private-key.pem -out csr.pem
 openssl x509 -req -days 365 -in csr.pem -signkey my-private-key.pem -out my-certificate.pem
+aws iam upload-server-certificate --server-certificate-name rvu-server-cert   \
+   --certificate-body file://my-certificate.pem --private-key file://my-private-key.pem
+#aws iam upload-server-certificate --server-certificate-name rvu-server-cert  \
+#    --certificate-body file://my-certificate.pem --private-key file://my-private-key.pem \
+#    --certificate-chain file://my-certificate-chain.pem
+
 aws iam upload-server-certificate --server-certificate-name my-server-cert --certificate-body file://server.crt  --private-key file://privatekey.pem
 
 sudo pip install django boto
@@ -122,8 +128,7 @@ STATICFILES_DIRS = [
 SECRET_KEY = configuration['django']['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-#DEBUG = os.environ.get('DEBUG') == "True"
+DEBUG = os.environ.get('DEBUG') == "True"
 
 if configuration['django']['use_ssl']:
     SECURE_CONTENT_TYPE_NOSNIFF = True
