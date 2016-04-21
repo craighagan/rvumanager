@@ -2,6 +2,7 @@ import collections
 import django_tables2 as tables
 from django_tables2.utils import A
 from django.db import connection
+from django.utils import timezone
 from .models import PatientVisit, BillingCode, Provider
 
 TABLE_ATTRIBUTES = {"class": "paleblue"}
@@ -16,7 +17,10 @@ class PatientVisitTable(tables.Table):
     class Meta:
         model = PatientVisit
         attrs = TABLE_ATTRIBUTES
-        #fields = ('provider', 'visit_date', 'code_billed')
+        fields = ('provider', 'visit_date', 'code_billed', 'delete')
+
+    def render_visit_date(self, value):
+        return str(timezone.template_localtime(value))
 
 
 class ProviderTable(tables.Table):

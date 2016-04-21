@@ -1,3 +1,4 @@
+import logging
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
 from django_tables2 import RequestConfig
@@ -7,15 +8,19 @@ from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.http import HttpResponseRedirect
 from django.db.models import Count, Min, Sum, Avg
+from django.utils.timezone import get_current_timezone
+from django.utils.dateparse import parse_date
 from django.views.generic import CreateView, UpdateView, DetailView, DeleteView, FormView, ListView
 from django_tables2 import RequestConfig, SingleTableView, SingleTableMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from braces.views import LoginRequiredMixin
+from braces.views import LoginRequiredMixin, RecentLoginRequiredMixin
 from .models import PatientVisit, BillingCode, Provider
 from .tables import PatientVisitTable, BillingCodesTable, ProviderTable, getSQLTable
 from .forms import NewPatientVisitForm
 
 database = "mysql"
+
+MAX_SESSION_TIME = 4 * 60 * 60 # four hours
 
 @login_required(login_url='/admin/login/')
 def index(request):
@@ -146,34 +151,37 @@ def daily_report(request):
     return render(request, "rvu/render_table.html", {"table": table})
 
 
-class BillingCodeListView(LoginRequiredMixin, SingleTableMixin, ListView):
+class BillingCodeListView(RecentLoginRequiredMixin, SingleTableMixin, ListView):
     model = BillingCode
     table_class = BillingCodesTable
     login_url = '/admin/login/'
     template_name = "rvu/render_table.html"
+    max_last_login_delta = MAX_SESSION_TIME
 
     def get(self, request, *args, **kwargs):
         provider = get_object_or_404(Provider, user=self.request.user)
         return super(BillingCodeListView, self).get(request, *args, **kwargs)
 
 
-class ProviderListView(LoginRequiredMixin, SingleTableMixin, ListView):
+class ProviderListView(RecentLoginRequiredMixin, SingleTableMixin, ListView):
     model = Provider
     table_class = ProviderTable
     login_url = '/admin/login/'
     template_name = "rvu/render_table.html"
+    max_last_login_delta = MAX_SESSION_TIME
 
     def get(self, request, *args, **kwargs):
         provider = get_object_or_404(Provider, user=self.request.user)
         return super(ProviderListView, self).get(request, *args, **kwargs)
 
 
-class CreatePatientVisitView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+class CreatePatientVisitView(RecentLoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = PatientVisit
     form_class = NewPatientVisitForm
     login_url = '/admin/login/'
     success_url = "/rvu"
     success_message = "Patient visit saved"
+    max_last_login_delta = MAX_SESSION_TIME
 
     def form_valid(self, form):
         form.instance.provider = get_object_or_404(Provider, user=self.request.user)
@@ -184,12 +192,13 @@ class CreatePatientVisitView(LoginRequiredMixin, SuccessMessageMixin, CreateView
         return super(CreatePatientVisitView, self).get(request, *args, **kwargs)
 
 
-class PatientVisitDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+class PatientVisitDeleteView(RecentLoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = PatientVisit
     form_class = NewPatientVisitForm
     login_url = '/admin/login/'
     success_url = "/rvu"
     success_message = "Patient visit deleted"
+    max_last_login_delta = MAX_SESSION_TIME
 
     def form_valid(self, form):
         form.instance.provider = get_object_or_404(Provider, user=self.request.user)
@@ -207,19 +216,29 @@ class PatientVisitDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView
         return super(PatientVisitDeleteView, self).post(request, *args, **kwargs)
 
 
-class PatientVisitListView(LoginRequiredMixin, SingleTableMixin, ListView):
+class PatientVisitListView(RecentLoginRequiredMixin, SingleTableMixin, ListView):
     model = PatientVisit
     table_class = PatientVisitTable
     login_url = '/admin/login/'
     template_name = "rvu/render_table.html"
+    max_last_login_delta = MAX_SESSION_TIME
 
     def get(self, request, *args, **kwargs):
         provider = get_object_or_404(Provider, user=self.request.user)
         return super(PatientVisitListView, self).get(request, *args, **kwargs)
 
     def get_queryset(self):
+        visit_date = self.kwargs.get("visit_date", None)
+        logging.warn("visit_date = %s", visit_date)
         provider = get_object_or_404(Provider, user=self.request.user)
-        return PatientVisit.objects.filter(provider=provider)
+        if not visit_date:
+            return PatientVisit.objects.filter(provider=provider)
+        else:
+            parsed_visit_date = parse_date(visit_date)
+            return PatientVisit.objects.filter(visit_date__year=parsed_visit_date.year,
+                                               visit_date__month=parsed_visit_date.month,
+                                               visit_date__day=parsed_visit_date.day,
+                                               provider=provider)
 
 
 class PatientVisitDetailView(PatientVisitListView):
@@ -227,10 +246,11 @@ class PatientVisitDetailView(PatientVisitListView):
         return [get_object_or_404(PatientVisit, pk=self.kwargs['pk'])]
 
 
-class oldPatientVisitDetailView(LoginRequiredMixin, SingleTableMixin, DetailView):
+class oldPatientVisitDetailView(RecentLoginRequiredMixin, SingleTableMixin, DetailView):
     model = PatientVisit
     table_class = PatientVisitTable
     login_url = '/admin/login/'
+    max_last_login_delta = MAX_SESSION_TIME
 
     def get_context_data(self, **kwargs):
         context = kwargs
@@ -244,12 +264,13 @@ class oldPatientVisitDetailView(LoginRequiredMixin, SingleTableMixin, DetailView
         return super(PatientVisitDetailView, self).get(request, *args, **kwargs)
 
 
-class PatientVisitUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+class PatientVisitUpdateView(RecentLoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = PatientVisit
     form_class = NewPatientVisitForm
     login_url = '/admin/login/'
     success_url = "/rvu"
     success_message = "Patient visit updated"
+    max_last_login_delta = MAX_SESSION_TIME
 
     def form_valid(self, form):
         if form.instance.provider != get_object_or_404(Provider, user=self.request.user):

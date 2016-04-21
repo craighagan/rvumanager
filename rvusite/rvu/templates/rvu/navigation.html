@@ -20,6 +20,7 @@
       <ul class="nav nav-tabs" role="presentation">
         <li class="{% if request.path == '/rvu/' %}active{% endif %}"><a href="/rvu">Home</a></li>
         <li class="{% if request.path == '/rvu/visit/new/' %}active{% endif %}"><a href="/rvu/visit/new">New Visit</a></li>
+        <li class="{% if request.path == '/rvu/visit/today/' %}active{% endif %}"><a href="/rvu/visit/today">Today</a></li>
         <li class="{% if request.path == '/rvu/visit/all/' %}active{% endif %}"><a href="/rvu/visit/all">Visits</a></li>
 
         {% if False %}
