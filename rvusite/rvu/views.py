@@ -14,11 +14,13 @@ from django.views.generic import CreateView, UpdateView, DetailView, DeleteView,
 from django_tables2 import RequestConfig, SingleTableView, SingleTableMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from braces.views import LoginRequiredMixin, RecentLoginRequiredMixin
+from django.conf import settings
 from .models import PatientVisit, BillingCode, Provider
 from .tables import PatientVisitTable, BillingCodesTable, ProviderTable, getSQLTable
 from .forms import NewPatientVisitForm
 
 database = "mysql"
+settings.DATABASES['default']['ENGINE'].split('.')[-1]
 
 MAX_SESSION_TIME = 4 * 60 * 60 # four hours
 
@@ -29,7 +31,7 @@ def index(request):
 
 @login_required(login_url='/admin/login/')
 def monthly_report(request):
-    if database == "sqlite":
+    if database == "sqlite3":
         sql = """
         select strftime("%%Y-%%m", rvu_patientvisit.visit_date) as visit_date, auth_user.email as provider,
         sum(rvu_billingcode.nr_rvus) as total_rvus,
@@ -70,7 +72,7 @@ def monthly_report(request):
 
 @login_required(login_url='/admin/login/')
 def weekly_report(request):
-    if database == "sqlite":
+    if database == "sqlite3":
         sql = """
         select strftime("%%Y Wk:%%W", rvu_patientvisit.visit_date) as visit_date, auth_user.email as provider,
         sum(rvu_billingcode.nr_rvus) as total_rvus,
@@ -111,7 +113,7 @@ def weekly_report(request):
 
 @login_required(login_url='/admin/login/')
 def daily_report(request):
-    if database == "sqlite":
+    if database == "sqlite3":
         sql = """
         select date(rvu_patientvisit.visit_date) as visit_date, auth_user.email as provider,
         sum(rvu_billingcode.nr_rvus) as total_rvus,
@@ -147,6 +149,7 @@ def daily_report(request):
     table = getSQLTable(sql,
                         bind_variables={"user_id": user.id},
                         column_definitions=["provider", "visit_date", "total_rvus", "pct_rvu_goal"])
+
     RequestConfig(request).configure(table)
     return render(request, "rvu/render_table.html", {"table": table})
 

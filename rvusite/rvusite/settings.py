@@ -83,7 +83,7 @@ import random
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+print "BASE_DIR: %s" % BASE_DIR
 region = os.environ.get("REGION", "us-east-1")
 bucket_name = os.environ.get("S3_BUCKET_NAME", "")
 CONFIG_FILE = os.environ.get("CONFIG_FILE", "/etc/rvu/config.json")
@@ -118,7 +118,7 @@ else:
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
-    '/var/www/static/',
+#    '/var/www/static/',
 ]
 
 # Quick-start development settings - unsuitable for production
@@ -252,3 +252,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "..", "static")
+
