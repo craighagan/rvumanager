@@ -40,6 +40,8 @@ aws iam upload-server-certificate --server-certificate-name rvu-server-cert   \
 
 aws iam upload-server-certificate --server-certificate-name my-server-cert --certificate-body file://server.crt  --private-key file://privatekey.pem
 
+http://stackoverflow.com/questions/27552859/aws-elastic-beanstalk-logging-with-python-django
+
 sudo pip install django boto
 #sudo pip install django-tables2 numpy pandas django-pandas
 sudo pip install django-report-builder mysqlclient

@@ -3,6 +3,10 @@ from django.utils import timezone
 from django.views.generic import RedirectView
 from . import views
 
+def get_current_date_str():
+    now = timezone.now()
+    return timezone.template_localtime(now).strftime("%Y-%m-%d")
+
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     # ex: /patient_visit/5/
@@ -11,7 +15,7 @@ urlpatterns = [
     url(r'visit/(?P<pk>[0-9]+)/$', views.PatientVisitDetailView.as_view(), name='patient-visit-detail'),
     url(r'visit/all/$', views.PatientVisitListView.as_view(), name='patient_visits'),
     url(r'visit/(?P<visit_date>\d\d\d\d-\d\d-\d\d)/$', views.PatientVisitListView.as_view(), name='patient_visits_day'),
-    url(r'visit/today/$', RedirectView.as_view(url='/rvu/visit/%s' % timezone.template_localtime(timezone.now()).strftime("%Y-%m-%d")), name='patient_visits_today'),
+    url(r'visit/today/$', RedirectView.as_view(url='/rvu/visit/%s' % get_current_date_str()), name='patient_visits_today'),
     url(r'billing_codes/$', views.BillingCodeListView.as_view(), name='billing_codes'),
     url(r'providers/$', views.ProviderListView.as_view(), name='providers'),
     url(r'visit/new/$', views.CreatePatientVisitView.as_view(), name='patient-visit-create'),
