@@ -1,4 +1,11 @@
 {% load sitetags %}
+<script>
+function convertUTCDateToLocalDate(date) {
+  var newDate = new Date(date);
+  newDate.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+  return newDate;
+}
+</script>
 
 <nav class="navbar navbar-default">
    <div class="container-fluid">
@@ -20,7 +27,8 @@
       <ul class="nav nav-tabs" role="presentation">
         <li class="{% if request.path == '/rvu/' %}active{% endif %}"><a href="/rvu">Home</a></li>
         <li class="{% if request.path == '/rvu/visit/new/' %}active{% endif %}"><a href="/rvu/visit/new">New Visit</a></li>
-        <li class="{% if request.path == '/rvu/visit/today/' %}active{% endif %}"><a href="/rvu/visit/today">Today</a></li>
+        <li class="{% if '/rvu/visit/2' in request.path %}active{% endif %}"><a href="#" onClick="this.href='/rvu/visit/' + convertUTCDateToLocalDate(new Date()).toISOString().slice(0, 10); + '/'">Today</a></li>
+
         <li class="{% if request.path == '/rvu/visit/all/' %}active{% endif %}"><a href="/rvu/visit/all">Visits</a></li>
 
         {% if False %}
