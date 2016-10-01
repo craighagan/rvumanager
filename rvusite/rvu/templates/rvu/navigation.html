@@ -29,7 +29,7 @@ function convertUTCDateToLocalDate(date) {
         <li class="{% if request.path == '/rvu/visit/new/' %}active{% endif %}"><a href="/rvu/visit/new">New Visit</a></li>
         <li class="{% if '/rvu/visit/2' in request.path %}active{% endif %}"><a href="#" onClick="this.href='/rvu/visit/' + convertUTCDateToLocalDate(new Date()).toISOString().slice(0, 10); + '/'">Today</a></li>
 
-        <li class="{% if request.path == '/rvu/visit/all/' %}active{% endif %}"><a href="/rvu/visit/all">Visits</a></li>
+        <li class="{% if request.path == '/rvu/visit/fyear/' %}active{% endif %}"><a href="/rvu/visit/fyear">Visits</a></li>
 
         {% if False %}
         <li class="{% if request.path == '/rvu/providers/' %}active{% endif %}"><a href="/rvu/providers">Providers</a></li>

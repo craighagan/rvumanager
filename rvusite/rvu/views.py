@@ -18,9 +18,10 @@ from django.conf import settings
 from .models import PatientVisit, BillingCode, Provider
 from .tables import PatientVisitTable, BillingCodesTable, ProviderTable, getSQLTable
 from .forms import NewPatientVisitForm
+from .utils import get_fiscal_year_start
 
-database = "mysql"
-settings.DATABASES['default']['ENGINE'].split('.')[-1]
+#database = "mysql"
+database = settings.DATABASES['default']['ENGINE'].split('.')[-1]
 
 MAX_SESSION_TIME = 4 * 60 * 60 # four hours
 
@@ -31,6 +32,7 @@ def index(request):
 
 @login_required(login_url='/admin/login/')
 def monthly_report(request):
+    fiscal_year_start = get_fiscal_year_start()
     if database == "sqlite3":
         sql = """
         select strftime("%%Y-%%m", rvu_patientvisit.visit_date) as visit_date, auth_user.email as provider,
@@ -42,10 +44,12 @@ def monthly_report(request):
         rvu_patientvisit.provider_id = rvu_provider.id and
         rvu_patientvisit.code_billed_id = rvu_billingcode.id and
         rvu_provider.user_id = auth_user.id and
-        auth_user.id = :user_id
+        auth_user.id = :user_id and
+        visit_date >= DATETIME(:fy_start)
         group by strftime("%%Y-%%m", rvu_patientvisit.visit_date), auth_user.email
         """
     elif database == "mysql":
+        fiscal_year_start = fiscal_year_start.strftime("%Y-%m-%d")
         sql = """
         select DATE_FORMAT(rvu_patientvisit.visit_date, "%%Y-%%m") as visit_date, auth_user.email as provider,
         sum(rvu_billingcode.nr_rvus) as total_rvus,
@@ -56,7 +60,8 @@ def monthly_report(request):
         rvu_patientvisit.provider_id = rvu_provider.id and
         rvu_patientvisit.code_billed_id = rvu_billingcode.id and
         rvu_provider.user_id = auth_user.id and
-        auth_user.id = %(user_id)s
+        auth_user.id = %(user_id)s and
+        visit_date >= %(fy_start)s
         group by DATE_FORMAT(rvu_patientvisit.visit_date, "%%Y-%%m"), auth_user.email
         """
     user = request.user
@@ -65,13 +70,14 @@ def monthly_report(request):
         user = get_object_or_404(User, email=provider_email)
 
     table = getSQLTable(sql,
-                        bind_variables={"user_id": user.id},
+                        bind_variables={"user_id": user.id, "fy_start": fiscal_year_start},
                         column_definitions=["provider", "visit_date", "total_rvus", "pct_rvu_goal"])
     RequestConfig(request).configure(table)
     return render(request, "rvu/render_table.html", {"table": table})
 
 @login_required(login_url='/admin/login/')
 def weekly_report(request):
+    fiscal_year_start = get_fiscal_year_start()
     if database == "sqlite3":
         sql = """
         select strftime("%%Y Wk:%%W", rvu_patientvisit.visit_date) as visit_date, auth_user.email as provider,
@@ -83,10 +89,12 @@ def weekly_report(request):
         rvu_patientvisit.provider_id = rvu_provider.id and
         rvu_patientvisit.code_billed_id = rvu_billingcode.id and
         rvu_provider.user_id = auth_user.id and
-        auth_user.id = %(user_id)s
+        auth_user.id = :user_id and
+        visit_date >= DATETIME(:fy_start)
         group by strftime("%%Y Wk:%%W", rvu_patientvisit.visit_date), auth_user.email
         """
     elif database == "mysql":
+        fiscal_year_start = fiscal_year_start.strftime("%Y-%m-%d")
         sql = """
         select DATE_FORMAT(rvu_patientvisit.visit_date, "%%Y Wk:%%U") as visit_date, auth_user.email as provider,
         sum(rvu_billingcode.nr_rvus) as total_rvus,
@@ -97,7 +105,8 @@ def weekly_report(request):
         rvu_patientvisit.provider_id = rvu_provider.id and
         rvu_patientvisit.code_billed_id = rvu_billingcode.id and
         rvu_provider.user_id = auth_user.id and
-        auth_user.id = %(user_id)s
+        auth_user.id = %(user_id)s and
+        visit_date >= %(fy_start)s
         group by DATE_FORMAT(rvu_patientvisit.visit_date, "%%Y Wk:%%U"), auth_user.email
         """
     user = request.user
@@ -106,13 +115,14 @@ def weekly_report(request):
         user = get_object_or_404(User, email=provider_email)
 
     table = getSQLTable(sql,
-                        bind_variables={"user_id": user.id},
+                        bind_variables={"user_id": user.id, "fy_start": fiscal_year_start},
                         column_definitions=["provider", "visit_date", "total_rvus", "pct_rvu_goal"])
     RequestConfig(request).configure(table)
     return render(request, "rvu/render_table.html", {"table": table})
 
 @login_required(login_url='/admin/login/')
 def daily_report(request):
+    fiscal_year_start = get_fiscal_year_start()
     if database == "sqlite3":
         sql = """
         select date(rvu_patientvisit.visit_date) as visit_date, auth_user.email as provider,
@@ -124,10 +134,12 @@ def daily_report(request):
         rvu_patientvisit.provider_id = rvu_provider.id and
         rvu_patientvisit.code_billed_id = rvu_billingcode.id and
         rvu_provider.user_id = auth_user.id and
-        auth_user.id = :user_id
+        auth_user.id = :user_id and
+        visit_date >= DATETIME(:fy_start)
         group by date(rvu_patientvisit.visit_date), auth_user.email
         """
     elif database == "mysql":
+        fiscal_year_start = fiscal_year_start.strftime("%Y-%m-%d")
         sql = """
         select DATE_FORMAT(rvu_patientvisit.visit_date, "%%Y-%%m-%%d") as visit_date,
         auth_user.email as provider,
@@ -139,15 +151,17 @@ def daily_report(request):
         rvu_patientvisit.provider_id = rvu_provider.id and
         rvu_patientvisit.code_billed_id = rvu_billingcode.id and
         rvu_provider.user_id = auth_user.id and
-        auth_user.id = %(user_id)s
+        auth_user.id = %(user_id)s and
+        visit_date >= %(fy_start)s
         group by DATE_FORMAT(rvu_patientvisit.visit_date, "%%Y-%%m-%%d"), auth_user.email
         """
     user = request.user
     provider_email = request.GET.get('provider_email', '')
     if provider_email:
         user = get_object_or_404(User, email=provider_email)
+
     table = getSQLTable(sql,
-                        bind_variables={"user_id": user.id},
+                        bind_variables={"user_id": user.id, "fy_start": fiscal_year_start},
                         column_definitions=["provider", "visit_date", "total_rvus", "pct_rvu_goal"])
 
     RequestConfig(request).configure(table)
@@ -228,21 +242,38 @@ class PatientVisitListView(RecentLoginRequiredMixin, SingleTableMixin, ListView)
 
     def get(self, request, *args, **kwargs):
         provider = get_object_or_404(Provider, user=self.request.user)
+        self.order = self.request.GET.get('orderby', '-visit_date')
         return super(PatientVisitListView, self).get(request, *args, **kwargs)
 
     def get_queryset(self):
+        fiscal_year_start = get_fiscal_year_start()
         visit_date = self.kwargs.get("visit_date", None)
         logging.warn("visit_date = %s", visit_date)
         provider = get_object_or_404(Provider, user=self.request.user)
         if not visit_date:
-            return PatientVisit.objects.filter(provider=provider)
+            return PatientVisit.objects.filter(provider=provider).order_by(self.order)
         else:
             parsed_visit_date = parse_date(visit_date)
             return PatientVisit.objects.filter(visit_date__year=parsed_visit_date.year,
                                                visit_date__month=parsed_visit_date.month,
                                                visit_date__day=parsed_visit_date.day,
-                                               provider=provider)
+                                               provider=provider).order_by(self.order)
 
+class PatientVisitListThisFiscalYearView(PatientVisitListView):
+    def get_queryset(self):
+        fiscal_year_start = get_fiscal_year_start()
+        visit_date = self.kwargs.get("visit_date", None)
+        logging.warn("visit_date = %s", visit_date)
+        provider = get_object_or_404(Provider, user=self.request.user)
+        if not visit_date:
+            return PatientVisit.objects.filter(provider=provider,
+                                               visit_date__gte=fiscal_year_start).order_by(self.order)
+        else:
+            parsed_visit_date = parse_date(visit_date)
+            return PatientVisit.objects.filter(visit_date__year=parsed_visit_date.year,
+                                               visit_date__month=parsed_visit_date.month,
+                                               visit_date__day=parsed_visit_date.day,
+                                               provider=provider).order_by(self.order)
 
 class PatientVisitDetailView(PatientVisitListView):
     def get_queryset(self):

@@ -77,7 +77,9 @@ def getSQLTable(sql,
     data = dictfetchall(cursor)
 
     the_attrs = collections.OrderedDict()
-    cols = data[0]
+    cols = []
+    if len(data) > 0:
+        cols = data[0]
     if column_definitions:
         cols = column_definitions
 
