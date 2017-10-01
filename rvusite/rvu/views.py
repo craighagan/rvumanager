@@ -47,6 +47,7 @@ def monthly_report(request):
         auth_user.id = :user_id and
         visit_date >= DATETIME(:fy_start)
         group by strftime("%%Y-%%m", rvu_patientvisit.visit_date), auth_user.email
+        order by rvu_patientvisit.visit_date desc
         """
     elif database == "mysql":
         fiscal_year_start = fiscal_year_start.strftime("%Y-%m-%d")
@@ -63,6 +64,7 @@ def monthly_report(request):
         auth_user.id = %(user_id)s and
         visit_date >= %(fy_start)s
         group by DATE_FORMAT(rvu_patientvisit.visit_date, "%%Y-%%m"), auth_user.email
+        order by rvu_patientvisit.visit_date desc
         """
     user = request.user
     provider_email = request.GET.get('provider_email', '')
@@ -92,6 +94,7 @@ def weekly_report(request):
         auth_user.id = :user_id and
         visit_date >= DATETIME(:fy_start)
         group by strftime("%%Y Wk:%%W", rvu_patientvisit.visit_date), auth_user.email
+        order by rvu_patientvisit.visit_date desc
         """
     elif database == "mysql":
         fiscal_year_start = fiscal_year_start.strftime("%Y-%m-%d")
@@ -108,6 +111,7 @@ def weekly_report(request):
         auth_user.id = %(user_id)s and
         visit_date >= %(fy_start)s
         group by DATE_FORMAT(rvu_patientvisit.visit_date, "%%Y Wk:%%U"), auth_user.email
+        order by rvu_patientvisit.visit_date desc
         """
     user = request.user
     provider_email = request.GET.get('provider_email', '')
