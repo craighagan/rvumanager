@@ -94,7 +94,7 @@ CONFIG_FILE = os.environ.get("CONFIG_FILE", "/etc/rvu/config.json")
 # and we're not running unit tests
 # grab it from s3
 configuration = {}
-if "test" in sys.argv or os.uname()[0] == 'Darwin':
+if "test" in sys.argv or os.environ.get("RVUTEST") or os.uname()[0] == 'Darwin':
     configuration = {
     "django": {
         "DATABASES": {
